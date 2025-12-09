@@ -20,7 +20,7 @@ public class LiterAluraApplication implements CommandLineRunner {
         String json;
 
         json = consumoApi.obtenerDatos("https://gutendex.com/books/?search=Quijote");
-        System.out.println("El json crudo es:");
+        System.out.println("\nEl json crudo es:\n");
         System.out.println(json);
     }
 }
