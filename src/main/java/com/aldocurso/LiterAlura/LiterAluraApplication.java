@@ -1,6 +1,7 @@
 package com.aldocurso.LiterAlura;
 
 import com.aldocurso.LiterAlura.model.RespuestaAPI;
+import com.aldocurso.LiterAlura.principal.Principal;
 import com.aldocurso.LiterAlura.service.ConsumoAPI;
 import com.aldocurso.LiterAlura.service.ConvertirDatos;
 import org.springframework.boot.CommandLineRunner;
@@ -17,14 +18,13 @@ public class LiterAluraApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("\n----- LITERALURA -----");
-
-        var consumoApi = new ConsumoAPI();
-        var convertirDatos = new ConvertirDatos();
-        String json;
-
-        json = consumoApi.obtenerDatos("https://gutendex.com/books/");
-        var respuestaApi = convertirDatos.obtenerDatos(json, RespuestaAPI.class);
-
-        System.out.println(respuestaApi);
+        var principal = new Principal();
+        principal.muestraElMenu();
+//
+//
+//        json = consumoApi.obtenerDatos("https://gutendex.com/books/");
+//        var respuestaApi = convertirDatos.obtenerDatos(json, RespuestaAPI.class);
+//
+//        System.out.println(respuestaApi);
     }
 }
