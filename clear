@@ -1,0 +1,35 @@
+[33mcommit 0e3013944718f3a436391c164204491b66fa9518[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: AldoSerrano1723 <aldoantonio1723@gmail.com>
+Date:   Wed Dec 10 11:34:34 2025 -0600
+
+    Feat: Añade la clase Principal
+    
+    -Crea metodo mostrarMenu
+    
+    -Muestra busqueda por nombre de libro
+
+[33mcommit 74d68d88e32671f8ae77ac0ddd9e089cecdca8ea[m
+Author: AldoSerrano1723 <aldoantonio1723@gmail.com>
+Date:   Wed Dec 10 09:56:40 2025 -0600
+
+    Feat: Añade record DatosAutor
+    
+    Feat: corrige errores de variables
+
+[33mcommit 6b18f791b8543ab6df2f282d928c21417f6e0212[m
+Author: AldoSerrano1723 <aldoantonio1723@gmail.com>
+Date:   Tue Dec 9 10:31:49 2025 -0600
+
+    Feat: Añade clase ConvertirDatos, records RespuestaAPI y DatosLibro
+
+[33mcommit 23347ec85e665ae8191282f62ddc6070989b36f6[m
+Author: AldoSerrano1723 <aldoantonio1723@gmail.com>
+Date:   Tue Dec 9 09:55:55 2025 -0600
+
+    Feat: Crea la clase ConsumoAPI
+
+[33mcommit f5f8f8134b48c712c946cfd251dab716de3fbdd7[m
+Author: AldoSerrano1723 <aldoantonio1723@gmail.com>
+Date:   Tue Dec 9 09:48:46 2025 -0600
+
+    Crea el proyecto

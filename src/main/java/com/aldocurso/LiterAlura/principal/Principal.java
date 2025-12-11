@@ -1,11 +1,14 @@
 package com.aldocurso.LiterAlura.principal;
 
+import com.aldocurso.LiterAlura.model.DatosLibro;
 import com.aldocurso.LiterAlura.model.RespuestaAPI;
 import com.aldocurso.LiterAlura.service.ConsumoAPI;
 import com.aldocurso.LiterAlura.service.ConvertirDatos;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Principal {
@@ -34,12 +37,21 @@ public class Principal {
 
             switch (opcion){
                 case 1:
-                    System.out.println("INGRESE EL TITULO QUE DESA BUSCAR:");
+                    System.out.println("\nINGRESE EL TITULO QUE DESA BUSCAR:");
                     String titulo = sc.nextLine();
                     String tituloCodificado = URLEncoder.encode(titulo, StandardCharsets.UTF_8);
                     String urlBusquedaTitulo = URL_BASE + "?search=" + tituloCodificado;
                     RespuestaAPI respuestaAPI = convertirDatos.obtenerDatos(consumoApi.obtenerDatos(urlBusquedaTitulo), RespuestaAPI.class);
-                    System.out.println(respuestaAPI.listaDeLibros().getClass());
+                    Optional <DatosLibro> libroBuscado = respuestaAPI.listaDeLibros().stream()
+                                    .findFirst();
+                    if (libroBuscado.isPresent()){
+                        System.out.println("\n--- LIBRO ECONTRADO ---");
+                        System.out.println("LOS DATOS DEL LIBRO SON: " + libroBuscado.get());
+                        System.out.println("\n");
+                    }else {
+                        System.out.println("\n***** NO ESTA EL LIBRO *****");
+                        System.out.println("\n");
+                    }
                     break;
                 case 2:
                     System.out.println("2");

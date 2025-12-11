@@ -17,7 +17,7 @@ public class LiterAluraApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("\n----- LITERALURA -----");
+        System.out.println("\n------- LITERALURA -------");
         var principal = new Principal();
         principal.muestraElMenu();
 //
