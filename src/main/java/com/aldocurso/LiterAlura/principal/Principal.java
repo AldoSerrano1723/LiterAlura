@@ -9,8 +9,10 @@ import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
+import java.util.DoubleSummaryStatistics;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Principal {
     private Scanner sc = new Scanner(System.in);
@@ -44,7 +46,7 @@ public class Principal {
                     top10Libros();
                     break;
                 case 3:
-                    System.out.println("3");
+                    mostrarEstadisticas();
                     break;
                 case 4:
                     System.out.println("-- ADIOS --");
@@ -82,6 +84,17 @@ public class Principal {
                 .sorted(Comparator.comparing(DatosLibro::numeroDeDescargas).reversed())
                 .limit(10)
                 .forEachOrdered(System.out::println);
+        System.out.println("\n");
+    }
+
+    public void mostrarEstadisticas(){
+        System.out.println("\n--- ESTADISTICAS ---");
+        RespuestaAPI respuestaAPI = convertirDatos.obtenerDatos(consumoApi.obtenerDatos(URL_BASE), RespuestaAPI.class);
+        DoubleSummaryStatistics est = respuestaAPI.listaDeLibros().stream()
+                .collect(Collectors.summarizingDouble(DatosLibro::numeroDeDescargas));
+        System.out.println("MEDIA DE LAS DESCARGAS: " + est.getAverage());
+        System.out.println("LIBRO CON MAYOR DESCARGA: " + est.getMax());
+        System.out.println("LIBRO CON MENOR DESCARGA: " + est.getMin());
         System.out.println("\n");
     }
 }
