@@ -82,6 +82,7 @@ public class Principal {
         RespuestaAPI respuestaAPI = convertirDatos.obtenerDatos(consumoApi.obtenerDatos(URL_BASE), RespuestaAPI.class);
         respuestaAPI.listaDeLibros().stream()
                 .sorted(Comparator.comparing(DatosLibro::numeroDeDescargas).reversed())
+                .map(l -> l.titulo().toUpperCase())
                 .limit(10)
                 .forEachOrdered(System.out::println);
         System.out.println("\n");
