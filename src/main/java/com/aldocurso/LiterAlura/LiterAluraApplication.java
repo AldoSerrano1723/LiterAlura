@@ -20,11 +20,5 @@ public class LiterAluraApplication implements CommandLineRunner {
         System.out.println("\n------- LITERALURA -------");
         var principal = new Principal();
         principal.muestraElMenu();
-//
-//
-//        json = consumoApi.obtenerDatos("https://gutendex.com/books/");
-//        var respuestaApi = convertirDatos.obtenerDatos(json, RespuestaAPI.class);
-//
-//        System.out.println(respuestaApi);
     }
 }

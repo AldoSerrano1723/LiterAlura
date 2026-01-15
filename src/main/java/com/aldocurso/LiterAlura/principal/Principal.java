@@ -1,6 +1,7 @@
 package com.aldocurso.LiterAlura.principal;
 
 import com.aldocurso.LiterAlura.model.DatosLibro;
+import com.aldocurso.LiterAlura.model.Libro;
 import com.aldocurso.LiterAlura.model.RespuestaAPI;
 import com.aldocurso.LiterAlura.service.ConsumoAPI;
 import com.aldocurso.LiterAlura.service.ConvertirDatos;
@@ -8,10 +9,7 @@ import com.aldocurso.LiterAlura.service.ConvertirDatos;
 import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Comparator;
-import java.util.DoubleSummaryStatistics;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Principal {
@@ -19,12 +17,12 @@ public class Principal {
     private ConsumoAPI consumoApi = new ConsumoAPI();
     private ConvertirDatos convertirDatos = new ConvertirDatos();
     private final String URL_BASE = "https://gutendex.com/books/";
+    private List<Libro> libroList = new ArrayList<>();
     private String mensaje = """
             ----- MENU PRINCIPAL -----
             
             1- BUSCAR LIBRO POR TITULO
-            2- LISTA TOP 10 LIBROS MAS DESCARGADOS
-            3- ESTADISTICAS GENERALES
+            2- LISTA DE TODOS LOS LIBROS
             4- SALIR
             
             INGRESE EL NUMERO DE UNA DE LAS OPCIONES:
@@ -43,10 +41,10 @@ public class Principal {
                     buscarTitulo();
                     break;
                 case 2:
-                    top10Libros();
+                    mostrarListaDeLibros();
                     break;
                 case 3:
-                    mostrarEstadisticas();
+
                     break;
                 case 4:
                     System.out.println("-- ADIOS --");
@@ -59,6 +57,11 @@ public class Principal {
         System.out.println("FIN DEL PROGRAMA");
     }
 
+    public void mostrarListaDeLibros() {
+        System.out.println("----- LISTA DE LIBROS -----");
+        libroList.forEach(System.out::println);
+    }
+
     public void buscarTitulo(){
         System.out.println("\nINGRESE EL TITULO QUE DESA BUSCAR:");
         String titulo = sc.nextLine();
@@ -68,8 +71,11 @@ public class Principal {
         Optional <DatosLibro> libroBuscado = respuestaAPI.listaDeLibros().stream()
                 .findFirst();
         if (libroBuscado.isPresent()){
+            var libroEncontrado = new Libro(libroBuscado.get());
+            libroList.add(libroEncontrado);
             System.out.println("\n--- LIBRO ECONTRADO ---");
-            System.out.println("LOS DATOS DEL LIBRO SON: " + libroBuscado.get());
+            System.out.println("LOS DATOS DEL LIBRO SON: ");
+            System.out.println(libroEncontrado);
             System.out.println("\n");
         }else {
             System.out.println("\n***** NO ESTA EL LIBRO *****");
@@ -77,25 +83,26 @@ public class Principal {
         }
     }
 
-    public void top10Libros(){
-        System.out.println("\n--- TOP 10 LIBROS MAS DESCARGADOS ---");
-        RespuestaAPI respuestaAPI = convertirDatos.obtenerDatos(consumoApi.obtenerDatos(URL_BASE), RespuestaAPI.class);
-        respuestaAPI.listaDeLibros().stream()
-                .sorted(Comparator.comparing(DatosLibro::numeroDeDescargas).reversed())
-                .map(l -> l.titulo().toUpperCase())
-                .limit(10)
-                .forEachOrdered(System.out::println);
-        System.out.println("\n");
-    }
 
-    public void mostrarEstadisticas(){
-        System.out.println("\n--- ESTADISTICAS ---");
-        RespuestaAPI respuestaAPI = convertirDatos.obtenerDatos(consumoApi.obtenerDatos(URL_BASE), RespuestaAPI.class);
-        DoubleSummaryStatistics est = respuestaAPI.listaDeLibros().stream()
-                .collect(Collectors.summarizingDouble(DatosLibro::numeroDeDescargas));
-        System.out.println("MEDIA DE LAS DESCARGAS: " + est.getAverage());
-        System.out.println("LIBRO CON MAYOR DESCARGA: " + est.getMax());
-        System.out.println("LIBRO CON MENOR DESCARGA: " + est.getMin());
-        System.out.println("\n");
-    }
+//    public void top10Libros(){
+//        System.out.println("\n--- TOP 10 LIBROS MAS DESCARGADOS ---");
+//        RespuestaAPI respuestaAPI = convertirDatos.obtenerDatos(consumoApi.obtenerDatos(URL_BASE), RespuestaAPI.class);
+//        respuestaAPI.listaDeLibros().stream()
+//                .sorted(Comparator.comparing(DatosLibro::numeroDeDescargas).reversed())
+//                .map(l -> l.titulo().toUpperCase())
+//                .limit(10)
+//                .forEachOrdered(System.out::println);
+//        System.out.println("\n");
+//    }
+//
+//    public void mostrarEstadisticas(){
+//        System.out.println("\n--- ESTADISTICAS ---");
+//        RespuestaAPI respuestaAPI = convertirDatos.obtenerDatos(consumoApi.obtenerDatos(URL_BASE), RespuestaAPI.class);
+//        DoubleSummaryStatistics est = respuestaAPI.listaDeLibros().stream()
+//                .collect(Collectors.summarizingDouble(DatosLibro::numeroDeDescargas));
+//        System.out.println("MEDIA DE LAS DESCARGAS: " + est.getAverage());
+//        System.out.println("LIBRO CON MAYOR DESCARGA: " + est.getMax());
+//        System.out.println("LIBRO CON MENOR DESCARGA: " + est.getMin());
+//        System.out.println("\n");
+//    }
 }
