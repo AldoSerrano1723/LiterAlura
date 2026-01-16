@@ -1,6 +1,8 @@
 package com.aldocurso.LiterAlura.principal;
 
 import com.aldocurso.LiterAlura.model.*;
+import com.aldocurso.LiterAlura.repository.AutorRepository;
+import com.aldocurso.LiterAlura.repository.LibroRepository;
 import com.aldocurso.LiterAlura.service.ConsumoAPI;
 import com.aldocurso.LiterAlura.service.ConvertirDatos;
 
@@ -16,6 +18,8 @@ public class Principal {
     private final String URL_BASE = "https://gutendex.com/books/";
     private List<Libro> libroList = new ArrayList<>();
     private List<Autor> autorList = new ArrayList<>();
+    private AutorRepository autorRepository;
+    private LibroRepository libroRepository;
     private String mensaje = """
             ----- MENU PRINCIPAL -----
             
@@ -26,6 +30,12 @@ public class Principal {
             
             INGRESE EL NUMERO DE UNA DE LAS OPCIONES:
             """;
+
+    //CONSTRUCTOR
+    public Principal(LibroRepository libroRepository, AutorRepository autorRepository) {
+        this.libroRepository = libroRepository;
+        this.autorRepository = autorRepository;
+    }
 
     //METODOS
     public void muestraElMenu(){
