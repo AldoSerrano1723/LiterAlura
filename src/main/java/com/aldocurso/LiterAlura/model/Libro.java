@@ -1,28 +1,29 @@
 package com.aldocurso.LiterAlura.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.Optional;
 
+@Entity
+@Table(name = "libros")
 public class Libro {
     //ATRIBUTOS
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String titulo;
-    private String nombreAutor;
     private String lenguaje;
     private Double numeroDeDescargas;
+
+    @ManyToOne
+    private Autor autor;
 
     //CONSTRUCTOR
     public Libro(DatosLibro datosLibro){
         this.titulo = datosLibro.titulo();
-
-        Optional<DatosAutor> autorOptional = datosLibro.autor().stream().findFirst();
-        if (autorOptional.isPresent()){
-            var autor = autorOptional.get();
-            this.nombreAutor = autor.nombre();
-        } else {
-            this.nombreAutor = "Autor desconocido";
-        }
 
         Optional<String> lenguajeOptional = datosLibro.lenguaje().stream().findFirst();
         if (lenguajeOptional.isPresent()) {
@@ -46,13 +47,6 @@ public class Libro {
         this.titulo = titulo;
     }
 
-    public String getNombreAutor() {
-        return nombreAutor;
-    }
-
-    public void setNombreAutor(String nombreAutor) {
-        this.nombreAutor = nombreAutor;
-    }
 
     public String getLenguaje() {
         return lenguaje;
@@ -77,10 +71,9 @@ public class Libro {
         return """
                 ----- LIBRO -----
                 Titulo: %s
-                Autor: %s
                 Idioma: %s
                 Numero de descargas: %.1f
                 -------------------------
-                """.formatted(titulo, nombreAutor, lenguaje, numeroDeDescargas);
+                """.formatted(titulo, lenguaje, numeroDeDescargas);
     }
 }
