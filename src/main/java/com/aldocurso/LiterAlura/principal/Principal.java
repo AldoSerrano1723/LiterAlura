@@ -85,29 +85,52 @@ public class Principal {
         String urlBusquedaTitulo = URL_BASE + "?search=" + tituloCodificado;
         RespuestaAPI respuestaAPI = convertirDatos.obtenerDatos(consumoApi.obtenerDatos(urlBusquedaTitulo), RespuestaAPI.class);
 
-        Optional <DatosLibro> libroBuscado = respuestaAPI.listaDeLibros().stream()
+        Optional<DatosLibro> libroOptional = respuestaAPI.listaDeLibros().stream()
                 .findFirst();
 
-        if (libroBuscado.isPresent()){
-            Optional<DatosAutor> autorOptional = libroBuscado.get().autor().stream()
+        if (libroOptional.isPresent()){
+            Optional<Libro> libroRegistrado = libroRepository.buscarLibroPorTitulo(libroOptional.get().titulo());
+            if (libroRegistrado.isEmpty()){
+                //LIBRO NUEVO
+                Optional<DatosAutor> autorOptional = libroOptional.get().autor().stream()
                     .findFirst();
-            if (autorOptional.isPresent()){
-                var libroEncontrado = new Libro(libroBuscado.get());
-                var autorEcontrado = new Autor(autorOptional.get());
-
-                libroList.add(libroEncontrado);
-                autorList.add(autorEcontrado);
-
-                System.out.println("\n--- LIBRO ECONTRADO ---");
-                System.out.println("LOS DATOS DEL LIBRO SON: ");
-                System.out.println(libroEncontrado);
-                System.out.println("\n");
+                if (autorOptional.isPresent()){
+                    Optional<Autor> autorRegistrado = autorRepository.buscarAutorPorNombre(autorOptional.get().nombre());
+                    if (autorRegistrado.isEmpty()){
+                        //NUEVO AUTOR Y NUEVO LIBRO
+                        Autor autorNuevo = new Autor(autorOptional.get());
+                        autorRepository.save(autorNuevo);
+                        Libro libroNuevo = new Libro(libroOptional.get());
+                        libroNuevo.setAutor(autorNuevo);
+                        libroRepository.save(libroNuevo);
+                    } else {
+                        //NUEVO LIBRO, AUTOR YA REGISTRADO
+                        Libro libroNuevo = new Libro(libroOptional.get());
+                        libroNuevo.setAutor(autorRegistrado.get());
+                        libroRepository.save(libroNuevo);
+                    }
+                }
+            } else {
+                System.out.println("***** EL LIBRO YA ESTA REGISTRADO *****");
             }
         }else {
             System.out.println("\n***** NO ESTA EL LIBRO *****");
             System.out.println("\n");
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //    public void top10Libros(){

@@ -16,6 +16,7 @@ public class LiterAluraApplication implements CommandLineRunner {
 
     @Autowired
     private AutorRepository autorRepository;
+    @Autowired
     private LibroRepository libroRepository;
 
 	public static void main(String[] args) {

@@ -39,6 +39,23 @@ public class Libro {
 
     //GETTER Y SETTERS
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Autor getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Autor autor) {
+        this.autor = autor;
+    }
+
     public String getTitulo() {
         return titulo;
     }
@@ -46,7 +63,6 @@ public class Libro {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
-
 
     public String getLenguaje() {
         return lenguaje;
