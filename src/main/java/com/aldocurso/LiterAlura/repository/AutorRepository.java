@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface AutorRepository extends JpaRepository<Autor, Long>{
 
-    @Query("SELECT Autor FROM Autor a WHERE LOWER(a.nombre) = lower(:nombreDeAutor)")
+    @Query("SELECT a FROM Autor a WHERE LOWER(a.nombre) = lower(:nombreDeAutor)")
     Optional<Autor> buscarAutorPorNombre(String nombreDeAutor);
 }

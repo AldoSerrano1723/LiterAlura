@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface LibroRepository extends JpaRepository<Libro, Long> {
 
-    @Query("SELECT Libro FROM Libro l WHERE LOWER(l.titulo) = LOWER(:nombreDeLibro)")
+    @Query("SELECT l FROM Libro l WHERE LOWER(l.titulo) = LOWER(:nombreDeLibro)")
     Optional<Libro> buscarLibroPorTitulo(String nombreDeLibro);
 }
