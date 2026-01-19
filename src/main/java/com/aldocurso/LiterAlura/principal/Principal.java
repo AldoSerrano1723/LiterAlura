@@ -16,8 +16,6 @@ public class Principal {
     private ConsumoAPI consumoApi = new ConsumoAPI();
     private ConvertirDatos convertirDatos = new ConvertirDatos();
     private final String URL_BASE = "https://gutendex.com/books/";
-    private List<Libro> libroList = new ArrayList<>();
-    private List<Autor> autorList = new ArrayList<>();
     private AutorRepository autorRepository;
     private LibroRepository libroRepository;
     private String mensaje = """
@@ -67,16 +65,6 @@ public class Principal {
         System.out.println("FIN DEL PROGRAMA");
     }
 
-    public void mostrarAutores() {
-        System.out.println("----- LISTA DE AUTORES -----");
-        autorList.forEach(System.out::println);
-    }
-
-    public void mostrarLibros() {
-        System.out.println("----- LISTA DE LIBROS -----");
-        libroList.forEach(System.out::println);
-    }
-
     public void buscarTitulo(){
         System.out.println("\nINGRESE EL TITULO QUE DESA BUSCAR:");
         String titulo = sc.nextLine();
@@ -103,11 +91,13 @@ public class Principal {
                         Libro libroNuevo = new Libro(libroOptional.get());
                         libroNuevo.setAutor(autorNuevo);
                         libroRepository.save(libroNuevo);
+                        System.out.println(libroNuevo);
                     } else {
                         //NUEVO LIBRO, AUTOR YA REGISTRADO
                         Libro libroNuevo = new Libro(libroOptional.get());
                         libroNuevo.setAutor(autorRegistrado.get());
                         libroRepository.save(libroNuevo);
+                        System.out.println(libroNuevo);
                     }
                 }
             } else {
@@ -119,39 +109,15 @@ public class Principal {
         }
     }
 
+    public void mostrarLibros() {
+        System.out.println("----- LISTA DE LIBROS -----");
+        var listaDeLibros = libroRepository.findAll();
+        listaDeLibros.forEach(System.out::println);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    public void top10Libros(){
-//        System.out.println("\n--- TOP 10 LIBROS MAS DESCARGADOS ---");
-//        RespuestaAPI respuestaAPI = convertirDatos.obtenerDatos(consumoApi.obtenerDatos(URL_BASE), RespuestaAPI.class);
-//        respuestaAPI.listaDeLibros().stream()
-//                .sorted(Comparator.comparing(DatosLibro::numeroDeDescargas).reversed())
-//                .map(l -> l.titulo().toUpperCase())
-//                .limit(10)
-//                .forEachOrdered(System.out::println);
-//        System.out.println("\n");
-//    }
-//
-//    public void mostrarEstadisticas(){
-//        System.out.println("\n--- ESTADISTICAS ---");
-//        RespuestaAPI respuestaAPI = convertirDatos.obtenerDatos(consumoApi.obtenerDatos(URL_BASE), RespuestaAPI.class);
-//        DoubleSummaryStatistics est = respuestaAPI.listaDeLibros().stream()
-//                .collect(Collectors.summarizingDouble(DatosLibro::numeroDeDescargas));
-//        System.out.println("MEDIA DE LAS DESCARGAS: " + est.getAverage());
-//        System.out.println("LIBRO CON MAYOR DESCARGA: " + est.getMax());
-//        System.out.println("LIBRO CON MENOR DESCARGA: " + est.getMin());
-//        System.out.println("\n");
-//    }
+    public void mostrarAutores() {
+        System.out.println("----- LISTA DE AUTORES -----");
+        var listaDeAutores = autorRepository.findAll();
+        listaDeAutores.forEach(System.out::println);
+    }
 }
