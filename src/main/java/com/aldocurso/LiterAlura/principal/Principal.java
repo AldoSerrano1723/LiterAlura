@@ -25,6 +25,7 @@ public class Principal {
             2- LISTA DE TODOS LOS LIBROS
             3- LISTA DE AUTORES
             4- LISTADO DE AUTORES VIVOS EN DETERMINADO AÑO
+            5- LISTADO DE LIBROS POR IDIOMAS
             9- SALIR
             
             INGRESE EL NUMERO DE UNA DE LAS OPCIONES:
@@ -57,6 +58,9 @@ public class Principal {
                     break;
                 case 4:
                     obtenerAutoresVivosEnAnio();
+                    break;
+                case 5:
+                    obtenerLibrosPorIdioma();
                     break;
                 case 9:
                     System.out.println("-- ADIOS --");
@@ -132,4 +136,14 @@ public class Principal {
         listaDeAutoresVivos.forEach(System.out::println);
     }
 
+    private void obtenerLibrosPorIdioma() {
+        System.out.println("INGRESA EL IDIOMA: ");
+        String idioma = sc.nextLine();
+        var listaDeLibrosPorIdioma = libroRepository.obtenerLibrosPorIdioma(idioma);
+        if (listaDeLibrosPorIdioma.isEmpty()){
+            System.out.println("*** NO HAY LIBROS EN ESE IDIOMA ***");
+        } else {
+            listaDeLibrosPorIdioma.forEach(System.out::println);
+        }
+    }
 }
