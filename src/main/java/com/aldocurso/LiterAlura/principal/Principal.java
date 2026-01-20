@@ -5,6 +5,7 @@ import com.aldocurso.LiterAlura.repository.AutorRepository;
 import com.aldocurso.LiterAlura.repository.LibroRepository;
 import com.aldocurso.LiterAlura.service.ConsumoAPI;
 import com.aldocurso.LiterAlura.service.ConvertirDatos;
+import jdk.swing.interop.SwingInterOpUtils;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -43,7 +44,14 @@ public class Principal {
         while (opcion != 9){
             System.out.println(mensaje);
 
-            opcion = sc.nextInt();
+            try {
+                opcion = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("***** ERROR: SOLO INGRESE NUMEROS ENTEROS *****");
+                System.out.println("***** PRECIONE ENTER PARA CONTINUAR *****");
+                sc.nextLine();
+                opcion = -1;
+            }
             sc.nextLine();
 
             switch (opcion){
@@ -131,13 +139,26 @@ public class Principal {
 
     public void obtenerAutoresVivosEnAnio() {
         System.out.println("INGRESA EL AÑO: ");
-        Integer anio = sc.nextInt();
-        var listaDeAutoresVivos = autorRepository.obtenerAutoresVivosEnAnio(anio);
-        listaDeAutoresVivos.forEach(System.out::println);
+        try{
+            Integer anio = sc.nextInt();
+            var listaDeAutoresVivos = autorRepository.obtenerAutoresVivosEnAnio(anio);
+            listaDeAutoresVivos.forEach(System.out::println);
+        }catch (InputMismatchException e){
+            System.out.println("***** ERROR: SOLO INGRESE NUMEROS ENTEROS *****");
+            sc.nextLine();
+        }
     }
 
-    private void obtenerLibrosPorIdioma() {
-        System.out.println("INGRESA EL IDIOMA: ");
+    public void obtenerLibrosPorIdioma() {
+        System.out.println("""
+                IDIOMAS
+                es- español
+                en- ingles
+                fr- frances
+                pt- portugues
+                
+                INGRESE EL IDIOMA:
+                """);
         String idioma = sc.nextLine();
         var listaDeLibrosPorIdioma = libroRepository.obtenerLibrosPorIdioma(idioma);
         if (listaDeLibrosPorIdioma.isEmpty()){
