@@ -24,7 +24,8 @@ public class Principal {
             1- BUSCAR LIBRO POR TITULO
             2- LISTA DE TODOS LOS LIBROS
             3- LISTA DE AUTORES
-            4- SALIR
+            4- LISTADO DE AUTORES VIVOS EN DETERMINADO AÑO
+            9- SALIR
             
             INGRESE EL NUMERO DE UNA DE LAS OPCIONES:
             """;
@@ -38,7 +39,7 @@ public class Principal {
     //METODOS
     public void muestraElMenu(){
         int opcion = 0;
-        while (opcion != 4){
+        while (opcion != 9){
             System.out.println(mensaje);
 
             opcion = sc.nextInt();
@@ -55,6 +56,9 @@ public class Principal {
                     mostrarAutores();
                     break;
                 case 4:
+                    obtenerAutoresVivosEnAnio();
+                    break;
+                case 9:
                     System.out.println("-- ADIOS --");
                     break;
                 default:
@@ -120,4 +124,12 @@ public class Principal {
         var listaDeAutores = autorRepository.findAll();
         listaDeAutores.forEach(System.out::println);
     }
+
+    public void obtenerAutoresVivosEnAnio() {
+        System.out.println("INGRESA EL AÑO: ");
+        Integer anio = sc.nextInt();
+        var listaDeAutoresVivos = autorRepository.obtenerAutoresVivosEnAnio(anio);
+        listaDeAutoresVivos.forEach(System.out::println);
+    }
+
 }
