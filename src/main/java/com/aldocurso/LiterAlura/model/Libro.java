@@ -84,12 +84,14 @@ public class Libro {
 
     @Override
     public String toString() {
+        var nombreDeAutor =  autor.getNombre();
         return """
                 ----- LIBRO -----
                 Titulo: %s
+                Autor: %s
                 Idioma: %s
                 Numero de descargas: %.1f
                 -------------------------
-                """.formatted(titulo, lenguaje, numeroDeDescargas);
+                """.formatted(titulo, nombreDeAutor,lenguaje, numeroDeDescargas);
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "autores")
@@ -74,11 +75,15 @@ public class Autor {
 
     @Override
     public String toString() {
+        String listaDeLibros = libros.stream()
+                .map(Libro::getTitulo)
+                .collect(Collectors.joining("], ["));
         return """
                 ----- AUTOR -----
                 Nombre : %s
                 Año de nacimiento: %d
-                Añno de muerte: %d
-                """.formatted(nombre, fechaDeNacimiento, fechaDeMuerte);
+                Año de muerte: %d
+                Libros: [%s]
+                """.formatted(nombre, fechaDeNacimiento, fechaDeMuerte, listaDeLibros);
     }
 }
